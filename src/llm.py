@@ -39,10 +39,12 @@ class UsageLog:
     input_tokens: int = 0
     output_tokens: int = 0
     failures: int = 0
-    model: str = DEFAULT_MODEL
+    model: str | None = None  # set only if the LLM path was actually enabled
 
     def as_dict(self) -> dict:
         return {
+            # None makes it unambiguous this model was never invoked, rather
+            # than sitting next to "calls": 0 looking like a call happened.
             "model": self.model,
             "calls": self.calls,
             "input_tokens": self.input_tokens,
@@ -59,7 +61,8 @@ class LLMPolisher:
     usage: UsageLog = field(default_factory=UsageLog)
 
     def __post_init__(self):
-        self.usage.model = self.model
+        if self.enabled:
+            self.usage.model = self.model
 
     def polish(self, template_reason: str, note_text: str, verdict: str) -> str:
         if not self.enabled:

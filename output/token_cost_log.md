@@ -9,7 +9,7 @@
 
 ```json
 {
-  "model": "llama3.2",
+  "model": null,
   "calls": 0,
   "input_tokens": 0,
   "output_tokens": 0,
