@@ -35,7 +35,7 @@ OUTPUT_COLUMNS = [
 ]
 
 
-def build_output(use_llm: bool = False, llm_model: str = "llama3.2") -> tuple[pd.DataFrame, LLMPolisher]:
+def build_output(use_llm: bool = False, llm_model: str = "qwen2.5:0.5b") -> tuple[pd.DataFrame, LLMPolisher]:
     shipments = load_shipments()
     weekly = weekly_route_metrics(shipments)
     weekly = compute_baselines(weekly)

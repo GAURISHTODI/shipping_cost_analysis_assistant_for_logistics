@@ -22,7 +22,7 @@ from src.pipeline import build_output  # noqa: E402
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--use-llm", action="store_true", help="Enable optional LLM reason-polishing via a local Ollama server (off by default).")
-    parser.add_argument("--model", default="llama3.2", help="Ollama model name to use if --use-llm is set.")
+    parser.add_argument("--model", default="qwen2.5:0.5b", help="Ollama model name to use if --use-llm is set.")
     parser.add_argument("--out", default=str(OUTPUT_CSV), help="Output CSV path.")
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
@@ -39,7 +39,8 @@ def main() -> None:
     n_ordinary = (df["flagged"] == "No").sum()
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    log_path = OUTPUT_DIR / "token_cost_log.md"
+    log_filename = "token_cost_log_llm.md" if args.use_llm else "token_cost_log.md"
+    log_path = OUTPUT_DIR / log_filename
     log_path.write_text(
         "# Token / cost log — one full run\n\n"
         f"- Total route-week rows evaluated: {n_total}\n"

@@ -14,6 +14,7 @@
   "input_tokens": 0,
   "output_tokens": 0,
   "failed_calls": 0,
+  "rejected_low_quality": 0,
   "estimated_cost_usd": 0.0
 }
 ```

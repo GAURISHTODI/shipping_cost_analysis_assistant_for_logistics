@@ -29,7 +29,7 @@ import urllib.request
 from dataclasses import dataclass, field
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-DEFAULT_MODEL = "llama3.2"
+DEFAULT_MODEL = "qwen2.5:0.5b"
 TEMPERATURE = 0.0
 
 
@@ -39,6 +39,7 @@ class UsageLog:
     input_tokens: int = 0
     output_tokens: int = 0
     failures: int = 0
+    rejected_low_quality: int = 0  # LLM responded, but output failed the quality gate
     model: str | None = None  # set only if the LLM path was actually enabled
 
     def as_dict(self) -> dict:
@@ -50,6 +51,7 @@ class UsageLog:
             "input_tokens": self.input_tokens,
             "output_tokens": self.output_tokens,
             "failed_calls": self.failures,
+            "rejected_low_quality": self.rejected_low_quality,
             "estimated_cost_usd": 0.0,  # local open-source model: no per-token billing
         }
 
@@ -82,6 +84,31 @@ class LLMPolisher:
 
         self.usage.calls += 1
         self.usage.input_tokens += prompt_tokens
+        self.usage.output_tokens += response_tokens
+
+        if not self._passes_quality_gate(text, verdict):
+            self.usage.rejected_low_quality += 1
+            return template_reason
+
+        return text.strip()
+
+    @staticmethod
+    def _passes_quality_gate(text: str, verdict: str) -> bool:
+        """Reject outputs a small model sometimes produces: an empty string,
+        or the model just echoing the verdict back instead of writing an
+        actual explanation (observed in practice with qwen2.5:0.5b). This
+        is a coarse guard, not a correctness check -- src/grounding.py
+        already guarantees the verdict/note_id are right regardless; this
+        only protects the *readability* of the `reason` column so a bad
+        LLM output degrades gracefully to the template instead of shipping
+        a one-line non-answer.
+        """
+        cleaned = text.strip()
+        if len(cleaned) < 40:
+            return False
+        if cleaned.rstrip(".").lower() == verdict.rstrip(".").lower():
+            return False
+        return True
         self.usage.output_tokens += response_tokens
         return text.strip() or template_reason
 
