@@ -1,0 +1,13 @@
+route,week_of,expected_matched_note_id,rationale
+Delhi-Jaipur,2024-11-11,,"No note applies to Delhi-Jaipur in Nov 2024 (N007 is May 2024 and is polarity-negative anyway)."
+Ahmedabad-Mumbai,2025-01-20,N002,"N002 is dated exactly this week, applies to this exact route, and is polarity-positive (surcharge)."
+Mumbai-Pune,2025-09-15,,"Closest topical note (N006) is explicitly polarity-negative (no major disruptions) so it cannot justify."
+Chennai-Bangalore,2025-03-03,N001,"N001 covers 2025-02-24 to 2025-03-08 on this exact route; week_of Mar 3 falls inside that window."
+Chennai-Bangalore,2025-03-17,,"N009 confirms the route 'returned to normal' after Mar 9 -- N009 is polarity-negative so it must NOT justify this week even though it is topically about the same route and close in time (window/negation logic must not over-justify)."
+Mumbai-Delhi,2024-07-29,,"N005 is an exact route+date match but explicitly says costs were 'not significantly affected' -- must never be used as a justification (polarity-negative trap)."
+Delhi-Jaipur,2024-05-20,,"N007 is an exact route+date match but describes improved conditions, not a cost rise -- must never justify a rise (polarity-negative trap)."
+Kolkata-Bhubaneswar,2025-06-09,,"N008 is an exact route+date match ('no significant disruptions... remained normal') -- must never justify a rise (polarity-negative trap)."
+Mumbai-Pune,2025-05-05,N003,"N003 (diesel, All Routes, dated 2025-05-05) is exactly this week -- in-window, all-routes, positive, so it must be usable as a justification this week."
+Delhi-Chennai,2025-05-19,,"N003 (diesel, All Routes, dated 2025-05-05) is two weeks earlier with no explicit end date in its text -- the single-week default window must NOT reach forward to justify this later week."
+Delhi-Chennai,2024-03-11,,"N004 nominally says 'All Routes' but its text says the affected routes are 'not part of this dataset' -- must never match any route regardless of date."
+Kolkata-Bhubaneswar,2025-10-27,,"N010 is 'All Routes' and dated exactly this week but explicitly says compliance costs were absorbed 'without a rate change' -- must never justify a rise (polarity-negative trap)."
