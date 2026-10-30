@@ -1,6 +1,6 @@
 # Cost Watch — a grounded shipping-cost anomaly assistant
 
-Built for the FreightTiger SDE Intern (AI) 24-hour case study: *"Build a smart assistant that watches shipping costs."*
+*"Build a smart assistant that watches shipping costs."*
 
 It groups shipment records by route and week, computes cost-per-tonne-km, compares each week against two exactly-specified baselines, flags anomalous rises, and — before flagging anything as unexplained — checks a small notes corpus via retrieval (RAG) to see if there's a real, provable reason. Every "justified" verdict is independently re-verified by a deterministic rule engine, so the assistant cannot fabricate a justification even if the retriever surfaces an irrelevant note.
 
