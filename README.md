@@ -1,4 +1,4 @@
-# FreightTiger Cost Watch — a grounded shipping-cost anomaly assistant
+# Cost Watch — a grounded shipping-cost anomaly assistant
 
 Built for the FreightTiger SDE Intern (AI) 24-hour case study: *"Build a smart assistant that watches shipping costs."*
 
